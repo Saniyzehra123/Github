@@ -4,8 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Repositories Viewer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     
+    <div id="nav"> </div>
+    <div id="container">
+       <div class="img">
+        <img id="user-img" src="">
+       </div>
+       
+        <div id="repositories"></div>
+
+        <div id="pagination">
+            <button onclick="prevPage()">Previous</button>
+            <span id="currentPage">1</span>
+            <button onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+    <script type="module">
+        
+        import navbar from './component/navbar.js'  
+       
+        import getUser from './script/getUser.js'
+
+        let container = document.getElementById('nav')
+    
+        var response;
+        nav.innerHTML = navbar()
+        
+        let input  = document.getElementById('username')
+        input.addEventListener('keypress',searchUser)
+
+        let btn = document.getElementById("repo_btn")
+        btn.addEventListener('click',getUserRepo)
+        
+
+        async function searchUser(event)
+        {
+  
+            if(event.key === 'Enter')
+            {
+            //   console.log('event:',event)
+
+            let query = input.value
+
+            response = await getUser(query)
+           
+          
+            let {avatar_url} = response
+            console.log('response:',response)
+
+            document.getElementById('profile-img').src = avatar_url
+
+            document.getElementById('user-img').src = avatar_url
+
+         }
+    
+         }
+      
+         async function getUserRepo(){
+
+            try{
+                let res = await fetch(response.repos_url)
+            let repo_data = await res.json()
+           
+
+            console.log(" repo_data:" ,repo_data)
+            }
+            catch( error)
+            {
+                console.log('error:',error)
+            }
+         }
+
+         getUserRepo()
+         
+
+        let currentPage = 1;
+        const repositoriesPerPage = 10;
+
+         
+    </script>
+
 </body>
 </html>
