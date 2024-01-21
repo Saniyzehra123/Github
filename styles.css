@@ -1,37 +1,4 @@
-/* body {
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    max-width: 800px;
-    margin: 50px auto;
-    text-align: center;
-}
-
-.loader {
-    display: none;
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.repositories {
-    margin-top: 20px;
-}
-
-.pagination {
-    margin-top: 20px;
-}
- */
+ 
 
  body {
     margin:0;
@@ -60,17 +27,7 @@
     width: 40%;
     padding: 9px;
 }
-/* #logo{
-    width:3%;
-    height:35px;
-    margin:5px;
-}
-#logo img{
-    width: 100%;
-    height: 100%;
-    object-fit:fill;
-    background-color: aqua;
-} */
+ 
 #options{
     width: 55%;
 }
@@ -85,28 +42,17 @@
 }
 #profile{
     width: 5%;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
 }
 #profile-img{
-
-    width: 70%;
+   
+    width: 80%;
     border-radius: 50%;
     height: 50px;
      
     }
-#container{
-    text-align: center;
-    background-color: #e64242;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
-}
 
-/* input {
-    padding: 8px;
-    margin: 8px;
-} */
+  
 
 button {
  
@@ -116,6 +62,46 @@ button {
     cursor: pointer;
 }
 
+#container{
+    text-align: center;
+    /* background-color: #e64242; */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+}
+.user{
+    display: flex;
+    /* background-color: blue; */
+    text-align:center;
+}
+.user-info{
+    padding-left: 40px;
+    text-align: left;
+}
+.img{
+    width: 30%;
+    /* background-color: aquamarine; */
+     
+}
+#user-img{
+
+    width: 70%;
+    border-radius: 50%;
+    height: 250px;
+    border: 2px solid #D8DEE3;
+     
+    }
+#github-profile{
+    text-align: left;
+    padding-left: 8%;
+ 
+}
+a{
+    text-decoration: none;
+    color: rgb(63, 59, 59);
+ 
+}
 #repositories {
     margin-top: 20px;
 }
@@ -133,4 +119,114 @@ button {
 #pagination button {
     padding: 8px;
     margin: 0 5px;
+}
+
+.loader {
+    display: none;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+.loading {
+    display: block;
+}
+ 
+.column {
+    width: 45%;  
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 3%;  
+    
+}
+
+.repository {
+    border: 2px solid black;
+    padding: 10px;
+    margin-bottom: 20px;  
+    box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.repository p.language {
+    display: inline-block;
+    background-color: #428BCA;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.repository h3{
+    color: #3886CA;
+}
+
+ 
+ 
+    .location-icon {
+        display: flex; 
+        align-items: center;  
+    }
+    
+    .location-icon img {
+        width: 20px; 
+        height: 20px;
+        margin-right: 5px;  
+    }
+    
+    .user-details {
+        flex: 1;  
+    }
+
+    #next {
+        background-color: #3886CA;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 15px;
+        border: none;
+        cursor: pointer;
+    }
+    #next:hover {
+        background-color: #1F4F7A;  
+      color:rgb(156, 154, 154)0;
+    }
+    #prev {
+        background-color: #3886CA;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 15px;
+        border: none;
+        cursor: pointer;
+    }
+    #prev:hover {
+        background-color: #1F4F7A;  
+    }
+      
+#reposPerPageContainer {
+    margin-top: 20px;
+}
+
+#reposPerPageLabel {
+   margin-top: 5%;
+   font-weight: 600;
+}
+
+#reposPerPage {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+}
+
+#reposPerPage option:hover {
+    background-color: #f0f0f0;
+}
+
+#reposPerPage:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }

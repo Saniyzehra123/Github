@@ -25,14 +25,14 @@ function navbar(){
             <li>Pull Requests</li>
             <li>Issues</li>
             <li>Marketplace</li>
-           <a > <li>Explore</li> </a> 
+          <li>Explore</li>  
 
         </ul>
 
     </div>
         <div id="profile">
 
-        <img id="profile-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.rSOtD5qeYMjsBMS3gVc2lAHaFj%26pid%3DApi&f=1" alt="">
+        <img id="profile-img" src="https://successcampus.in/wp-content/uploads/2018/12/userimg.png" alt="">
 
          </div>
         </div>

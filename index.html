@@ -10,82 +10,180 @@
     
     <div id="nav"> </div>
     <div id="container">
-       <div class="img">
-        <img id="user-img" src="">
+    
+       <div class="user">
+            <div class="img">
+            <img id="user-img" src="https://successcampus.in/wp-content/uploads/2018/12/userimg.png">
+            </div>
+            <div class="user-info">
+                <div class="user-details">
+                    <h1 id="name"></h1>
+                    <h4 id="bio"></h4>
+                    <div class="location-icon">
+                        <img src="https://cdn-icons-png.flaticon.com/512/484/484167.png" alt="Location Icon">
+                        <p id="location"></p>
+                    </div>
+                    
+                    <p id="twitter"></p>
+                </div>
+            </div>
+         
        </div>
+       <p id="github-profile"></p>
        
         <div id="repositories"></div>
 
         <div id="pagination">
-            <button onclick="prevPage()">Previous</button>
+            <button id="prev"> Previous</button>
             <span id="currentPage">1</span>
-            <button onclick="nextPage()">Next</button>
+            <button id="next">Next</button>
         </div>
+
+        <div id="reposPerPageContainer">
+            <label for="reposPerPage" id="reposPerPageLabel">Repositories per page:</label>
+            <select id="reposPerPage">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+
+        <div id="loader" class="loader"></div>
     </div>
 
     <script type="module">
-        
         import navbar from './component/navbar.js'  
-       
         import getUser from './script/getUser.js'
 
-        let container = document.getElementById('nav')
-    
+        let container = document.getElementById('nav');
         var response;
-        nav.innerHTML = navbar()
-        
-        let input  = document.getElementById('username')
-        input.addEventListener('keypress',searchUser)
 
-        let btn = document.getElementById("repo_btn")
-        btn.addEventListener('click',getUserRepo)
-        
+        document.getElementById('nav').innerHTML = navbar();
+        let input  = document.getElementById('username');
+        input.addEventListener('keypress',searchUser);
 
-        async function searchUser(event)
-        {
-  
-            if(event.key === 'Enter')
-            {
-            //   console.log('event:',event)
-
-            let query = input.value
-
-            response = await getUser(query)
-           
-          
-            let {avatar_url} = response
-            console.log('response:',response)
-
-            document.getElementById('profile-img').src = avatar_url
-
-            document.getElementById('user-img').src = avatar_url
-
-         }
-    
-         }
-      
-         async function getUserRepo(){
-
-            try{
-                let res = await fetch(response.repos_url)
-            let repo_data = await res.json()
-           
-
-            console.log(" repo_data:" ,repo_data)
-            }
-            catch( error)
-            {
-                console.log('error:',error)
-            }
-         }
-
-         getUserRepo()
-         
+        let btn = document.getElementById("repo_btn");
+        btn.addEventListener('click',getUserRepo);
 
         let currentPage = 1;
-        const repositoriesPerPage = 10;
+        let repositoriesPerPage = 10;
 
-         
+        let reposPerPageSelect = document.getElementById('reposPerPage');
+        reposPerPageSelect.addEventListener('change', () => {
+            repositoriesPerPage = parseInt(reposPerPageSelect.value, 10);
+            currentPage = 1;
+            getUserRepo();
+            updatePageNumber(currentPage);
+        });
+
+        let prev = document.getElementById("prev");
+        prev.addEventListener('click',prevPage);
+
+        let next = document.getElementById("next");
+        next.addEventListener('click',nextPage);
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                getUserRepo();
+                updatePageNumber(currentPage);
+            }
+        }
+
+        function nextPage() {
+            currentPage++;
+            getUserRepo();
+            updatePageNumber(currentPage);
+        }
+
+        function updatePageNumber(currentPage) {
+            document.getElementById('currentPage').textContent = currentPage;
+        }
+
+        async function searchUser(event) {
+            if(event.key === 'Enter') {
+                let query = input.value;
+                response = await getUser(query);
+                let { avatar_url, name, location, bio, twitter_username, html_url } = response;
+                
+                document.getElementById('profile-img').src = avatar_url
+                document.getElementById('user-img').src = avatar_url;
+                document.getElementById('name').textContent = name;
+                document.getElementById('location').textContent = `${location || 'Not specified'}`;
+                document.getElementById('bio').textContent = `${bio || 'Not specified'}`;
+                
+                if (twitter_username) {
+                    let twitterUrl = `https://twitter.com/${twitter_username}`;
+                    document.getElementById('twitter').innerHTML = `<a href="${twitterUrl}" target="_blank">${twitterUrl}</a>`;
+                } else {
+                    document.getElementById('twitter').textContent = 'Twitter: Not specified';
+                }
+
+                document.getElementById('github-profile').innerHTML = `<a href="${html_url}" target="_blank">${html_url}</a>`;
+            }
+        }
+      
+        async function getUserRepo() {
+            try {
+                document.getElementById('loader').classList.add('loading');
+                let res = await fetch(`${response.repos_url}?per_page=${repositoriesPerPage}&page=${currentPage}`);
+                let repo_data = await res.json();
+
+                console.log("repo_data:" ,repo_data);
+                displayRepositories(repo_data);
+            } catch (error) {
+                console.log('error:', error);
+            } finally {
+                document.getElementById('loader').classList.remove('loading');
+            }
+        }
+
+        function displayRepositories(repositories) {
+    let repositoriesContainer = document.getElementById('repositories');
+
+    if (!repositories || repositories.length === 0) {
+        repositoriesContainer.innerHTML = '<p>No repositories found.</p>';
+        return;
+    }
+
+    repositoriesContainer.innerHTML = ''; // Clear existing content
+
+    let leftColumn = document.createElement('div');
+    leftColumn.classList.add('column');
+    leftColumn.id = 'leftColumn';
+
+    let rightColumn = document.createElement('div');
+    rightColumn.classList.add('column');
+    rightColumn.id = 'rightColumn';
+
+    repositories.forEach((repo, index) => {
+        let repoElement = document.createElement('div');
+        repoElement.classList.add('repository');
+
+        let languages = repo.language
+            ? `<p class="language">${repo.language}</p>`
+            : '';
+
+        repoElement.innerHTML = `
+            <h3>${repo.name}</h3>
+            <p>${repo.description || 'No description available'}</p>
+            ${languages}
+            <p>Stars: ${repo.stargazers_count}</p>
+            <p>Forks: ${repo.forks_count}</p>
+        `;
+
+        if (index < 5) {
+            leftColumn.appendChild(repoElement);
+        } else {
+            rightColumn.appendChild(repoElement);
+        }
+    });
+
+    repositoriesContainer.appendChild(leftColumn);
+    repositoriesContainer.appendChild(rightColumn);
+}
+ 
     </script>
 
 </body>
