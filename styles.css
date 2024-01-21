@@ -152,20 +152,32 @@ a{
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.repository p.language {
-    display: inline-block;
+ 
+.language-section {
+    
+    height: 40px;
+    text-align: center; 
+}
+
+.language {
+    display: inline-block;  
     background-color: #428BCA;
     color: white;
     padding: 5px;
-    border-radius: 5px;
-    margin-right: 10px;
+    border-radius: 3px;
+    margin-right: 10px;  
+    white-space: nowrap;    
+    margin-top: 2px;
 }
-.repository h3{
+
+.repository h3 {
     color: #3886CA;
 }
 
- 
- 
+
+.repository h3 {
+    color: #3886CA;
+}
     .location-icon {
         display: flex; 
         align-items: center;  

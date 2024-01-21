@@ -139,7 +139,7 @@
             }
         }
 
-        function displayRepositories(repositories) {
+        async function displayRepositories(repositories) {
     let repositoriesContainer = document.getElementById('repositories');
 
     if (!repositories || repositories.length === 0) {
@@ -157,32 +157,48 @@
     rightColumn.classList.add('column');
     rightColumn.id = 'rightColumn';
 
-    repositories.forEach((repo, index) => {
+    for (const repo of repositories) {
         let repoElement = document.createElement('div');
         repoElement.classList.add('repository');
 
-        let languages = repo.language
-            ? `<p class="language">${repo.language}</p>`
-            : '';
+        let languages = '';
+
+        if (repo.languages_url) {
+            try {
+                let langRes = await fetch(repo.languages_url);
+                let langData = await langRes.json();
+                languages = Object.keys(langData).join(', ');
+            } catch (error) {
+                console.error('Error fetching languages:', error);
+            }
+        }
 
         repoElement.innerHTML = `
             <h3>${repo.name}</h3>
             <p>${repo.description || 'No description available'}</p>
-            ${languages}
+             
+            <div class="language-section">
+                 
+             <div class="languages">
+                ${languages ? languages.split(',').map(lang => `<div class="language">${lang.trim()}</div>`).join('') : 'Not specified'}
+              </div>
+            </div>
             <p>Stars: ${repo.stargazers_count}</p>
             <p>Forks: ${repo.forks_count}</p>
         `;
 
-        if (index < 5) {
+        if (repositories.indexOf(repo) < 5) {
             leftColumn.appendChild(repoElement);
         } else {
             rightColumn.appendChild(repoElement);
         }
-    });
+    }
 
     repositoriesContainer.appendChild(leftColumn);
     repositoriesContainer.appendChild(rightColumn);
 }
+
+ 
  
     </script>
 
